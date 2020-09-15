@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"com.ufro.dci.saludContigo"},{"l":"com.ufro.dci.saludContigo.controlador"},{"l":"com.ufro.dci.saludContigo.modelo"},{"l":"com.ufro.dci.saludContigo.modelo.enumeration"},{"l":"com.ufro.dci.saludContigo.repositorio"}]

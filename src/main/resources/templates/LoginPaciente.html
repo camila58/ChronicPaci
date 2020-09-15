@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Login Paciente</title>
+    <link rel="stylesheet"  th:href="@{/styles/login.css}">
+</head>
+<body background="..\imagenes\chronicPacie.jpeg">
+
+<div class="container right-panel-active">
+    <!-- Sign Up -->
+    <div class="container__form container--signup">
+        <form action="/paciente/login" method="post" class="form" id="form1" th:object="${pacienteLogueado}">
+            <h2 class="form__title">login Paciente</h2>
+            <input type="email" placeholder="Email" name="correo" class="input" />
+            <input type="password" placeholder="Password" name="contrasena" class="input" />
+            <a href="#" class="link">¿Olvidaste tu contraseña?</a>
+            <button class="btn">Ingresar</button>
+
+            <a href="/pag/login" class="link">Login Doctor</a>
+        </form>
+
+    </div>
+
+    <!-- Overlay -->
+    <div class="container__overlay">
+        <div class="overlay">
+
+            <div class="overlay__panel overlay--left">
+                <a href="/pagPaciente/regis" class="btn" id="signIn">Registrarse</a>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<!-- JQUERY -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!--FRAMEWORK BOOTSTRAP para el estilo de la pagina-->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+<!-- Los iconos tipo Solid de Fontawesome-->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/solid.css">
+<script src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
+
+<!-- Nuestro css-->
+<link rel="stylesheet"type="text/css"href="static/css/index.css">
+
+</body>
+</html>

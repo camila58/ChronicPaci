@@ -1,0 +1,5 @@
+com.ufro.dci.saludContigo
+com.ufro.dci.saludContigo.controlador
+com.ufro.dci.saludContigo.modelo
+com.ufro.dci.saludContigo.modelo.enumeration
+com.ufro.dci.saludContigo.repositorio
