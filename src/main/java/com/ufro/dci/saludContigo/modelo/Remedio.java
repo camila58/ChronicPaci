@@ -8,14 +8,15 @@ public class Remedio {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idRemedio;
+
     @Column(name = "nombre")
     private String nombre;
     @Column(name = "descripcion")
     private String descripcion;
     @Column(name = "cantidad")
     private int cantidad;
-    @ManyToOne
-    @JoinColumn(name = "idPaciente")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn( name="idPaciente", nullable = true)
     private Paciente paciente;
 
 
@@ -28,6 +29,14 @@ public class Remedio {
     }
 
     public Remedio() {
+    }
+
+    public Long getIdRemedio() {
+        return idRemedio;
+    }
+
+    public void setIdRemedio(Long idRemedio) {
+        this.idRemedio = idRemedio;
     }
 
     public String getNombre() {
@@ -65,9 +74,11 @@ public class Remedio {
     @Override
     public String toString() {
         return "Remedio{" +
-                "nombre='" + nombre + '\'' +
+                "idRemedio=" + idRemedio +
+                ", nombre='" + nombre + '\'' +
                 ", descripcion='" + descripcion + '\'' +
                 ", cantidad=" + cantidad +
+                ", paciente=" + paciente +
                 '}';
     }
 }

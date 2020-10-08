@@ -5,10 +5,9 @@ import com.ufro.dci.saludContigo.repositorio.ReposiRemedio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @Controller
 @RequestMapping(value = "/remedio")
@@ -28,6 +27,12 @@ public class ControlRemedio {
         reposiRemedio.save(remedio);
         System.out.println(remedio);
         return"redirect:/remedio/paciente";
+    }
+    @GetMapping("/edit/{id}")
+    public String getEditarRemedio(Model model, @PathVariable("id") long id){
+        Optional<Remedio> remedioOptional=reposiRemedio.findById(id);
+        model.addAttribute("remedios",remedioOptional.get());
+         return"/Remedio";
     }
 
 }

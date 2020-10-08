@@ -7,7 +7,10 @@ import com.ufro.dci.saludContigo.modelo.Paciente;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ReposiFichaM extends CrudRepository<FichaMedica,Long> {
-    Iterable<FichaMedica> findByPaciente(Paciente paciente);
+
+    FichaMedica findByPaciente(Paciente paciente);
+
 }

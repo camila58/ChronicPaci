@@ -9,6 +9,6 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
-public interface ReposiEspecialidad extends CrudRepository<Especialidad,Integer> {
+public interface ReposiEspecialidad extends CrudRepository<Especialidad,Long> {
 
 }

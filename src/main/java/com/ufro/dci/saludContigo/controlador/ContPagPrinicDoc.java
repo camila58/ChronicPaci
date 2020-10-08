@@ -1,15 +1,9 @@
 package com.ufro.dci.saludContigo.controlador;
 
-import com.ufro.dci.saludContigo.modelo.BlocNota;
-import com.ufro.dci.saludContigo.modelo.Horario;
-import com.ufro.dci.saludContigo.modelo.Paciente;
+import com.ufro.dci.saludContigo.modelo.*;
 import com.ufro.dci.saludContigo.modelo.enumeration.Dia;
 import com.ufro.dci.saludContigo.modelo.enumeration.Periodo;
-import com.ufro.dci.saludContigo.repositorio.ReposiBlocNota;
-import com.ufro.dci.saludContigo.repositorio.ReposiDoctor;
-import com.ufro.dci.saludContigo.modelo.Doctor;
-import com.ufro.dci.saludContigo.repositorio.ReposiHorario;
-import com.ufro.dci.saludContigo.repositorio.ReposiPacien;
+import com.ufro.dci.saludContigo.repositorio.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,10 +29,12 @@ public class ContPagPrinicDoc {
     private ReposiBlocNota reposiBlocNota;
     @Autowired
     private ReposiPacien reposiPacien;
+    @Autowired
+    private ReposiFichaM fichaM;
 
     @GetMapping("/princidoc")
-    public String mostrarPag(Model model, HttpServletRequest request){
-        Iterable<Paciente> pacienLis= reposiPacien.findAll();
+    public String mostrarPag(Model model, HttpServletRequest request,@ModelAttribute FichaMedica fichaMedica){
+        Iterable<FichaMedica >fichaMedica1=  fichaM.findAll();
         sessionDoct=(Doctor)request.getSession().getAttribute("doctorLogueado");
         if (sessionDoct==null){
             return("redirect:/pag/login");
@@ -51,8 +47,7 @@ public class ContPagPrinicDoc {
         }
         model.addAttribute("asign",asignada);
         model.addAttribute("notas",reposiBlocNota.findByDoctor(doctortemp.get()));
-        model.addAttribute("pacienteLis",pacienLis);
-        System.out.println(pacienLis);
+        model.addAttribute("fich",fichaMedica1);
         return("PagPrinciDoctor");
 
     }
@@ -80,6 +75,33 @@ public class ContPagPrinicDoc {
         }
         return"redirect:/pag/princidoc";
     }
+    @GetMapping("/borrarNota/{id}")
+    public String borrarNotas(@ModelAttribute BlocNota blocNota,@PathVariable("id")long id){
+        BlocNota blocNota1=reposiBlocNota.findById(id).get();
+        reposiBlocNota.delete(blocNota1);
+
+        return "redirect:/pag/princidoc";
+    }
+    @GetMapping("/editDoc/{id}")
+    public String getEditarDoct(Model model,@PathVariable("id")long id){
+        Optional<Doctor>doctorO=reposiDoctor.findById(id);
+        model.addAttribute("doctor",doctorO.get());
+        return "editarDoctor";
+    }
+    @PostMapping("/editarDoctor")
+    public String postEditarDoct(@ModelAttribute Doctor doctor, HttpServletRequest request, Model model){
+        if(sessionDoct.getContrasena().equals(doctor.getContrasena())){
+
+            sessionDoct.setNombre(doctor.getNombre());
+            sessionDoct.setApellido(doctor.getApellido());
+            sessionDoct.setCorreo(doctor.getCorreo());
+            reposiDoctor.save(sessionDoct);
+            return "redirect:/pag/princidoc";
+        }
+        model.addAttribute("error","la contraseña no coinciden");
+        return "redirect:/pag/editDoc/"+sessionDoct.getIdDoctor();
+    }
+
     private Map<String, String> getMapHorario() {
         Map<String,String> asignad = new HashMap<>();
         asignad.put("lunesNO","+");

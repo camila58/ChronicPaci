@@ -1,6 +1,10 @@
 package com.ufro.dci.saludContigo.modelo;
 
+import com.ufro.dci.saludContigo.modelo.enumeration.TipoCefam;
+import com.ufro.dci.saludContigo.modelo.enumeration.TipoEspecialidades;
+
 import javax.persistence.*;
+import javax.validation.constraints.Pattern;
 import java.util.List;
 
 @Entity
@@ -15,12 +19,14 @@ public class Doctor {
     @Column(name = "apellido")
     private String apellido;
     @Column(name = "rut")
+    @Pattern(regexp = "^\\d{1,2}\\.\\d{3}\\.\\d{3}[-][0-9kK]{1}$")
     private String rut;
     @Column(name = "correo")
     private String correo;
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn( name="idEspecialidad", nullable = true)
-    private Especialidad especialidad;
+    @Column(name = "tipoEspecialidad")
+    private TipoEspecialidades tipoEspecialidades;
+    @ManyToOne
+    private Cesfam cesfam;
     @Column(name = "contraseña")
     private String contrasena;
     @OneToMany(fetch = FetchType.EAGER)
@@ -31,16 +37,16 @@ public class Doctor {
 
     }
 
-    public Doctor(Long idDoctor, String nombre, String apellido, String rut, String correo, Especialidad especialidad, String contrasena, List<Paciente> pacientesta) {
+    public Doctor(Long idDoctor, String nombre, String apellido, String rut, String correo, TipoEspecialidades tipoEspecialidades, Cesfam cesfam, String contrasena, List<Paciente> pacientes) {
         this.idDoctor = idDoctor;
         this.nombre = nombre;
         this.apellido = apellido;
         this.rut = rut;
         this.correo = correo;
-        this.especialidad = especialidad;
+        this.tipoEspecialidades = tipoEspecialidades;
+        this.cesfam = cesfam;
         this.contrasena = contrasena;
         this.pacientes = pacientes;
-
     }
 
     public Long getIdDoctor() {
@@ -83,12 +89,20 @@ public class Doctor {
         this.correo = correo;
     }
 
-    public Especialidad getEspecialidad() {
-        return especialidad;
+    public TipoEspecialidades getTipoEspecialidades() {
+        return tipoEspecialidades;
     }
 
-    public void setEspecialidad(Especialidad especialidad) {
-        this.especialidad = especialidad;
+    public void setTipoEspecialidades(TipoEspecialidades tipoEspecialidades) {
+        this.tipoEspecialidades = tipoEspecialidades;
+    }
+
+    public Cesfam getCesfam() {
+        return cesfam;
+    }
+
+    public void setCesfam(Cesfam cesfam) {
+        this.cesfam = cesfam;
     }
 
     public String getContrasena() {
@@ -107,7 +121,6 @@ public class Doctor {
         this.pacientes = pacientes;
     }
 
-
     @Override
     public String toString() {
         return "Doctor{" +
@@ -116,11 +129,10 @@ public class Doctor {
                 ", apellido='" + apellido + '\'' +
                 ", rut='" + rut + '\'' +
                 ", correo='" + correo + '\'' +
-                ", especialidad=" + especialidad +
-                ", contraseña='" + contrasena + '\'' +
+                ", tipoEspecialidades=" + tipoEspecialidades +
+                ", cesfam=" + cesfam +
+                ", contrasena='" + contrasena + '\'' +
                 ", pacientes=" + pacientes +
                 '}';
     }
-
-
 }

@@ -8,6 +8,7 @@ import org.springframework.data.repository.CrudRepository;
 import javax.print.Doc;
 import java.util.List;
 
+
 public interface ReposiDoctor extends CrudRepository<Doctor,Long> {
    @Override
    public List<Doctor>findAll();
@@ -16,6 +17,7 @@ public interface ReposiDoctor extends CrudRepository<Doctor,Long> {
 
    public Doctor findByCorreo(String correo);
 
+   public Doctor findByContrasena(String contrasena);
 
 
 }

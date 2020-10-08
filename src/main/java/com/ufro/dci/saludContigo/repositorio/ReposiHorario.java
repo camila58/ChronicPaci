@@ -11,6 +11,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
+
 public interface ReposiHorario extends CrudRepository<Horario,Long> {
     Horario findByPeriodoAndDia(Periodo periodoByNum, Dia diaByNum);
 

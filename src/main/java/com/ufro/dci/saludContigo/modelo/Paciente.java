@@ -1,6 +1,9 @@
 package com.ufro.dci.saludContigo.modelo;
 
+import com.ufro.dci.saludContigo.modelo.enumeration.TipoCefam;
+
 import javax.persistence.*;
+import javax.validation.constraints.Pattern;
 
 @Entity
 @Table(name = "paciente")
@@ -13,6 +16,7 @@ public class Paciente {
     private String nombre;
     @Column(name = "apellido")
     private String apellido;
+    @Pattern(regexp = "^\\d{1,2}\\.\\d{3}\\.\\d{3}[-][0-9kK]{1}$")
     @Column(name = "rut")
     private String rut;
     @Column(name = "correo")
@@ -20,22 +24,23 @@ public class Paciente {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "idDoctor", nullable = true)
     private Doctor doctor;
+    @ManyToOne
+    private Cesfam cesfam;
     @Column(name = "contraseña")
     private String contrasena;
 
+    public Paciente() {
+    }
 
-    public Paciente(Long idPaciente, String nombre, String apellido, String rut, String correo, Doctor doctor, String contrasena) {
+    public Paciente(Long idPaciente, String nombre, String apellido, @Pattern(regexp = "^\\d{1,2}\\.\\d{3}\\.\\d{3}[-][0-9kK]{1}$") String rut, String correo, Doctor doctor, Cesfam cesfam, String contrasena) {
         this.idPaciente = idPaciente;
         this.nombre = nombre;
         this.apellido = apellido;
         this.rut = rut;
         this.correo = correo;
         this.doctor = doctor;
+        this.cesfam = cesfam;
         this.contrasena = contrasena;
-
-    }
-
-    public Paciente() {
     }
 
     public Long getIdPaciente() {
@@ -86,6 +91,14 @@ public class Paciente {
         this.doctor = doctor;
     }
 
+    public Cesfam getCesfam() {
+        return cesfam;
+    }
+
+    public void setCesfam(Cesfam cesfam) {
+        this.cesfam = cesfam;
+    }
+
     public String getContrasena() {
         return contrasena;
     }
@@ -103,9 +116,8 @@ public class Paciente {
                 ", rut='" + rut + '\'' +
                 ", correo='" + correo + '\'' +
                 ", doctor=" + doctor +
+                ", cesfam=" + cesfam +
                 ", contrasena='" + contrasena + '\'' +
                 '}';
     }
-
-
 }

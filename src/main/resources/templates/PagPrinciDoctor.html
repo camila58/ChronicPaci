@@ -4,31 +4,25 @@
     <meta charset="UTF-8">
     <title>Pagina Principal Doctor</title>
 </head>
-<body background="..\imagenes\docotore.jpeg" >
-<div id="container" class="text-md-rigth">
-    <div id="header"></div>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light" >
-        <a class="navbar-brand" href="#">ChronicPacient</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
-                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse  d-flex flex-row-reverse" id="navbarNavAltMarkup" tabindex="-1" >
-            <div class="navbar-nav" tabindex="-1" aria-disabled="true">
-                <a class="nav-item nav-link " href="#" th:text="${session.doctorLogueado.Nombre}">Cuenta</a>
-                <a class="nav-item nav-link " href="/pag/logout">Cerrar Sesión</a>
+<body background="..\imagenes\docotore.jpeg">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">ChronicPacient</a>
+    <ul class="navbar-nav my-2 ml-auto">
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle  " href="#" th:text="${session.doctorLogueado.nombre}" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ></a>
+            <div class="dropdown-menu dropdown-menu-right">
+                <a class="dropdown-item" th:href="@{|/pag/editDoc/${session.doctorLogueado.idDoctor}|}">Editar Usuario</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="/pag/logout">Cerrar Sesión</a>
             </div>
-        </div>
-    </nav>
-
-    <div class="container">
-        </br>
-        </br>
-    </div>
-    <div class="row mr-8">
-        <div id="horario" class="text-center col-8 mr-2">
+        </li>
+    </ul>
+</nav>
+<div class="container text-md-rigth">
+    <div class="row mr-8 mt-4">
+        <div id="horario" class="col-8 card">
+            <h3 class="text-center">Horario de trabajo</h3>
             <table class="table">
-                <caption>Horario de trabajo</caption>
                 <thead>
                 <tr>
                     <th scope="col">hora/día</th>
@@ -242,55 +236,57 @@
                 </tbody>
             </table>
         </div>
-        <h1></h1>
-        <h2></h2>
-        <div id="contenido" class="panel panel-default border-left border-dark bg-light text-dark">
-            <div id="blogNotas" class="list-group col-12">
-                <div class="text-center principal" >
-                    <div class="wrap" >
-                        <form class="formulario" th:action="@{/pag/pagBloc}" method="post">
-                            <input type="text" name="texto" id="tareaInput" placeholder="Bloc de notas">
-                            <input type="submit" class="boton" id="btn-agregar" value="Agregar">
-                        </form>
-                    </div>
-                </div>
-
-                <div class="wrap" >
-                    <ul class="list-group mh-75" id="lista" style="overflow-y: scroll;height: 450px;">
-                        <li class="list-group-item" th:each="nota :${notas}" th:text="${nota.texto}"/>
-                    </ul>
-                </div>
-            </div>
-            </br>
-        </div>
-    </div>
-    <div class="modal-dialog text-center">
-        <div class="col-sm-70 col-md-40">
-            <div class="modal-content">
-                <div class="col-20">
-                    <div id="conFicha" >
-                        <div class="col-sm-20 col-md-20" >
-                            <table class="table">
-                                <thead>
-                                <tr>
-                                    <th scope="col">Nombre Paciente</th>
-                                    <th scope="col">Rut</th>
-                                    <th scope="col">Correo</th>
-                                    <th scope="col"> </th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr th:each="paci:${pacienteLis}">
-                                    <td th:text="${paci.nombre}"></td>
-                                    <td th:text="${paci.rut}"></td>
-                                    <td th:text="${paci.correo}" ></td>
-                                    <td><a href="/fichaMed/paciente" class="bnt btn-warning">agregar Ficha Medica</a></td>
-                                </tr>
-                            </table>
-
+        <div class="col-4">
+            <div id="contenido" class="panel panel-default">
+                <div id="blogNotas" class="list-group col-12">
+                    <div class="text-center principal bg-warning">
+                        <div class="wrap">
+                            <form class="formulario my-2" th:action="@{/pag/pagBloc}" method="post">
+                                <input type="text" name="texto" id="tareaInput" placeholder="Bloc de notas">
+                                <input type="submit" class="boton" id="btn-agregar" value="Agregar">
+                            </form>
                         </div>
                     </div>
+                    <div class="wrap bg-dark">
+                        <ul class="list-group mh-75" id="lista" style="overflow-y: scroll;height: 450px;">
+                            <li class="list-group-item d-inline bg-dark text-light d-flex justify-content-between align-items-center" th:each="nota :${notas}">
+                                <span th:text="${nota.texto}"></span>
+                                <a th:href="@{|/pag/borrarNota/${nota.idBlocNota}|}" class="btn btn-dark"><i class="far fa-trash-alt"></i></a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
+                </br>
+            </div>
+        </div>
+    </div>
+    <!-- Inicio ficha Medica -->
+    <div class="text-center row d-flex justify-content-center mt-4">
+        <div class="col-10 card">
+            <div id="conFicha">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">Nombre Paciente</th>
+                        <th scope="col">Rut</th>
+                        <th scope="col">Correo</th>
+                        <th scope="col">Editar</th>
+                        <th scope="col">Eliminar</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="ficha: ${fich}" th:if="${ficha.paciente!=null}" >
+                        <td th:text="${ficha.paciente.nombre}"></td>
+                        <td th:text="${ficha.paciente.rut}"></td>
+                        <td th:text="${ficha.paciente.correo}"></td>
+                        <td>
+                            <a class="btn btn-warning" th:href="@{|/fichaMed/edit/${ficha.idFichaM}|}">Editar</a>
+                        </td>
+                        <td>
+                            <a class="btn btn-danger" th:href="@{|/fichaMed/borrar/${ficha.idFichaM}|}">Borrar</a>
+                        </td>
+                    </tr>
+                </table>
             </div>
         </div>
     </div>
@@ -298,8 +294,7 @@
 
 </div>
 
-<div id="modalMenu" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-     aria-hidden="true">
+<div id="modalMenu" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -342,7 +337,7 @@
             </div>
             <div class="modal-footer">
                 <button class=" btn btn-primary mb-2" type="submit" data-dismiss="modal">Guardar</button>
-                <button type="button" class="btn btn-secondary"  data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
             </div>
         </div>
     </div>

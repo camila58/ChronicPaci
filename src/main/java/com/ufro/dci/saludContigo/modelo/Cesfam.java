@@ -12,14 +12,17 @@ public class Cesfam {
 
     @Column(name = "nombre")
     private String nombre;
-    @OneToMany(fetch =FetchType.LAZY)
+    @OneToMany(fetch =FetchType.LAZY,mappedBy = "cesfam")
     private List<Doctor>doctores;
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "cesfam")
     private List<Paciente>pacientes;
     @OneToMany(fetch = FetchType.LAZY)
     private List<Sucursal>sucursal;
 
     public Cesfam(String nombre){
+
+    }
+    public Cesfam(){
 
     }
 
